@@ -229,6 +229,7 @@ src="https://www.youtube.com/embed/jJPMnTXI63E?enablejsapi=1" frameborder="0"
   style="position: absolute; left: -9999px; top: -9999px;"
    ></iframe>
         <script>
+            let player;
             // Lista de mensajes románticos que aparecerán en burbujas
 const messages = [
   "Te amo muchísimo ❤️",
@@ -341,6 +342,7 @@ setInterval(createTextBubble, 500);
                     'onReady': function(event) {
                         event.target.playVideo(); // Asegura la reproducción cuando el reproductor está listo
                         event.target.mute();      // Asegura que esté muteado
+                        player.unMute();
                     },
                     'onStateChange': function(event) {
                         // Si el video termina, vuelve a reproducirlo para el loop
