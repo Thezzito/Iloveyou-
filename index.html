@@ -224,7 +224,7 @@
         <iframe
             id="youtubePlayer"  width="1"
   height="1"   
-src="https://www.youtube.com/embed/jJPMnTXI63E?enablejsapi=1" frameborder="0"
+  src="https://www.youtube.com/embed/jJPMnTXl63E?autoplay=1&loop=1&playlist=jJPMnTXl63E&controls=0&modestbranding=1&rel=0&showinfo=084" frameborder="0"
   allow="autoplay; encrypted-media" allowfullscreen
   style="position: absolute; left: -9999px; top: -9999px;"
    ></iframe>
@@ -343,7 +343,6 @@ setInterval(createTextBubble, 500);
                         player = event.target;   // Asigna el reproductor a la variable global 'player'
                         player.playVideo();      // Inicia la reproducción del video
                         player.mute();           // Asegura que inicie muteado
-                        player.unMute();
                     },
                     'onStateChange': function(event) {
                         // Si el video termina, vuelve a reproducirlo para el loop
@@ -354,6 +353,13 @@ setInterval(createTextBubble, 500);
                 }
             });
         };
+        
+        // --- AÑADIDO AQUÍ ---
+            // Desmutear el audio *después* de que el usuario hace clic en el botón
+             if (player && typeof player.unMute === 'function') {
+                player.unMute();
+            }
+            // ---------------------
 
         // Oculta el botón después de que se hace clic
         startButton.style.display = 'none';
