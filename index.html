@@ -190,17 +190,42 @@
     }
 }
 
+            /* -- INICIO NUEVO CSS para el botón -- */
+#startButton {
+    position: fixed; /* O fixed para que siempre esté visible */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100; /* Asegura que esté encima de todo */
+    padding: 15px 30px;
+    font-size: 1.5em;
+    font-weight: bold;
+    background-color: #ff4081; /* Un rosa vibrante */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+    transition: background-color 0.3s ease;
+}
+
+#startButton:hover {
+    background-color: #e00074; /* Un rosa más oscuro al pasar el ratón */
+}
+/* -- FIN NUEVO CSS para el botón -- */
 
         </style>
     </head>
     <body>
         <div class="message">Te amoo muchote ❤️</div>
         <div id="bubbles-text"></div>
+
+        <button id="startButton">Haz clic aqui guapa (músiquita)</button>
+        <div class="youtube-audio-player">
         <iframe
-  width="1"
+            id="youtubePlayer"  width="1"
   height="1"   
-src="https://www.youtube.com/embed/tQ8x6YBLPeI?autoplay=1&loop=1&playlist=tQ8x6YBLPeI&controls=1&mute=1&disablekb=1&modestbranding=1&rel=0&showinfo=0"
-  frameborder="0"
+src="https://www.youtube.com/embed/tQ8x6YBLPeI?&loop=1&playlist=tQ8x6YBLPeI&controls=1&&disablekb=1&modestbranding=1&rel=0&showinfo=0" frameborder="0"
   allow="autoplay; encrypted-media" allowfullscreen
   style="position: absolute; left: -9999px; top: -9999px;"
    ></iframe>
@@ -220,6 +245,7 @@ const messages = [
   "Mi corazón es tuyo 💘"
   
 ];
+
 
 // Función que crea una burbuja de texto con un mensaje aleatorio
 function createTextBubble() {
@@ -281,6 +307,57 @@ function createTextBubble() {
 // Llamamos a la función createTextBubble cada 500 milisegundos (0.5 segundos)
 setInterval(createTextBubble, 500);
 
+                // ... (tu código JavaScript de las burbujas) ...
+
+    // CÓDIGO NUEVO PARA EL AUDIO DE YOUTUBE (desde aquí abajo)
+    const startButton = document.getElementById('startButton');
+    const youtubePlayerIframe = document.getElementById('youtubePlayer'); // Referencia al iframe por su ID
+
+    startButton.addEventListener('click', () => {
+        // Carga la API de YouTube si no está cargada
+        if (typeof YT === 'undefined' || !YT.Player) {
+            var tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/watch?v=tfoaUqrILxw";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        }
+
+        // Esta función onYouTubeIframeAPIReady se llama automáticamente
+        // una vez que la API de YouTube se carga.
+        window.onYouTubeIframeAPIReady = function() {
+            new YT.Player('youtubePlayer', { // Usamos el ID del iframe
+                videoId: 'tQ8x6YBlPeI', // <-- ¡TU ID DE VIDEO AQUÍ!
+                playerVars: {
+                    'controls': 0,        // Oculta los controles del reproductor
+                    'autoplay': 1,        // Ahora sí, autoplay (controlado por la API)
+                    'loop': 1,            // Para que se repita
+                    'playlist': 'tQ8x6YBlPeI', // <-- Necesario para el loop de un solo video
+                    'mute': 1,            // Inicia muteado
+                    'disablekb': 1,       // Deshabilita controles de teclado
+                    'modestbranding': 1,  // Quita el logo de YouTube grande
+                    'rel': 0,             // No muestra videos relacionados
+                    'showinfo': 0,        // No muestra título ni información
+                    'iv_load_policy': 3   // No muestra anotaciones del video
+                },
+                events: {
+                    'onReady': function(event) {
+                        event.target.playVideo(); // Asegura la reproducción cuando el reproductor está listo
+                        event.target.mute();      // Asegura que esté muteado
+                    },
+                    'onStateChange': function(event) {
+                        // Si el video termina, vuelve a reproducirlo para el loop
+                        if (event.data === YT.PlayerState.ENDED) {
+                            event.target.playVideo();
+                        }
+                    }
+                }
+            });
+        };
+
+        // Oculta el botón después de que se hace clic
+        startButton.style.display = 'none';
+    });
+            
         </script>
     </body>
 
