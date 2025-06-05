@@ -340,8 +340,9 @@ setInterval(createTextBubble, 500);
                 },
                 events: {
                     'onReady': function(event) {
-                        event.target.playVideo(); // Asegura la reproducción cuando el reproductor está listo
-                        event.target.mute();      // Asegura que esté muteado
+                        player = event.target;   // Asigna el reproductor a la variable global 'player'
+                        player.playVideo();      // Inicia la reproducción del video
+                        player.mute();           // Asegura que inicie muteado
                         player.unMute();
                     },
                     'onStateChange': function(event) {
